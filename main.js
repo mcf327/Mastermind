@@ -1,22 +1,26 @@
 // constants
-const COLORS = ['black', 'white', 'red', 'blue', 'green', 'yellow'];  // peg color options for player's guess
+const COLORS = ['rgb(0, 0, 0)', 'rgb(255, 255, 255)', 'rgb(255, 0, 0)', 'rgb(0, 0, 255)', 'rgb(0, 255, 0)', 'rgb(255, 255, 0)'];  // color options for player's guess & secret code
 const CODE_LENGTH = 4;  // maximum length for secret code & player guesses
 const MAX_GUESSES = 10;  // 10 tries to get it right!
 
 // state variables
-let guesses; // initilize to 0 in init function; keep track of player guesses; if this reaches 10 player loses
-let randomCode; // variable that will hold computer-generated code for player to guess
-let guessArray; // will hold values of player's current guess
+let guesses = 10; // keep track of player guesses and use to keep track of corresponding/current row; if this reaches 10 player loses
+let randomCode = []; // variable that will hold computer-generated code for player to guess
+let currentHoleIdx = 0; // index of hole in current row to be filled with clicked color
 
 // cached elements
 const secretRow = document.getElementById('secret-row');
-const playerChoiceRow = document.getElementById('player-choices');
+const guessRows = Array.from(document.querySelectorAll('.row'));
+const colorOptions = Array.from(document.getElementById('player-choices').querySelectorAll('.hole'));
 const checkGuessButton = document.getElementById('check-guess');
 const newGameButton = document.getElementById('new-game');
 
 // event listeners
 newGameButton.addEventListener('click', init);
 checkGuessButton.addEventListener('click', checkGuess);
+colorOptions.forEach((option, idx) => {
+    option.addEventListener('click', renderGuess);
+});
 
 // functions
 
@@ -32,45 +36,94 @@ function getRandomCode() {
 
 // check player guess againt randomCode and award appropriate number of red/white pegs
 function checkGuess() {
+    const currentRow = guessRows[guesses];
+    const guessArray = Array.from(currentRow.querySelectorAll('.hole'));
     let redPegs = 0;
     let whitePegs = 0;
-
-    function checkRed() {
-        // work out logic and implement code to check for/increment red pegs
+    let correctGuess = true;
+    for (let i = 0; i < guessArray.length; i++) {
+        const color = getComputedStyle(guessArray[i]).backgroundColor;
+        if (color !== randomCode[i]) {
+          correctGuess = false;
+        } else {
+            redPegs++;
+        }
     }
 
-    function checkWhite() {
-        // work out logic and implement code to check for/increment white pegs
+    if (correctGuess === true) {
+        displayWin();
+        return;
+    }
+
+    for(let i = 0; i < guessArray.length; i++) {
+        const color = getComputedStyle(guessArray[i]).backgroundColor;
+        for (let j = 0; j < guessArray.length; j++) {
+            if (color === randomCode[j] && i !== j) {
+                whitePegs++;
+                break;
+            }
+        }
+    }
+
+    renderFeedback(redPegs, whitePegs, currentRow);
+    guesses--;
+    if(guesses === 0) {
+        displayLose();
     }
 }
 
 // function to initialize the game
 function init() {
-    guesses = 0;
+    guesses = 10;
     randomCode = getRandomCode();
-    render();
+    //clear the board:
+    guessRows.forEach((row) => {
+        const holes = Array.from(row.querySelectorAll('.hole'));
+        holes.forEach((hole) => {
+            hole.style.backgroundColor = 'gray';
+        });
+        const fbHoles = Array.from(row.querySelectorAll('.fb-hole'));
+        fbHoles.forEach((hole) => {
+            hole.style.backgroundColor = 'gray';
+        });
+    });
 }
 
-function render() {
-    renderBoard();
-    renderFeedback();
+function renderGuess(evt) {
+    const currentRow = guessRows[guesses];
+    const clickedColor = getComputedStyle(evt.target).backgroundColor; // get clicked color
+    const currentHole = currentRow.querySelectorAll('.hole')[currentHoleIdx];
+    currentHole.style.backgroundColor = clickedColor;
+    currentHoleIdx++;
+    if(currentHoleIdx === CODE_LENGTH) {
+        currentHoleIdx = 0;
+    }
 }
 
-function renderBoard() {
-    
+function renderFeedback(redPegs, whitePegs, currentRow) {
+    const fbHoles = Array.from(currentRow.querySelectorAll('.fb-hole')); // array to access/modify feedback in current row
+    fbHoles.forEach((hole, idx) => { 
+        if (idx < redPegs) {
+            hole.style.backgroundColor = 'red';
+        } else if (idx < redPegs + whitePegs) {
+            hole.style.backgroundColor = 'white';
+        } else {
+            hole.style.backgroundColor = 'gray';
+        }
+    });
 }
 
-function renderFeedback() {
-
+function displayWin() {
+    const msg = document.getElementById('message');
+    msg.innerText = 'Congrats! You win!'
 }
 
-function getGuess() {
-    
+function displayLose() {
+    const msg = document.getElementById('message');
+    msg.innerText = 'You lose! Better luck next time!';
 }
 
-function displayMessage() {
-
-}
+init();
 
 /* // constants 
 - colors array for six possible player color choices
