@@ -85,3 +85,7 @@ h2 {
 #secret-row {
     margin-top: 5px;
 }
+
+.highlight {
+    border: 1px solid black;
+}
