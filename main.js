@@ -65,7 +65,7 @@ function checkGuess() {
     }
     for(let i = 0; i < guessArray.length; i++) {
         const color = getComputedStyle(guessArray[i]).backgroundColor;
-        if (color !== codeCopy[i] && codeCopy.includes(color)) {
+        if (color !== codeCopy[i] && codeCopy.includes(color) && redPegs < 3) {
             whitePegs++;
             codeCopy[codeCopy.indexOf(color)] = null;
         }
@@ -110,9 +110,6 @@ function renderGuess(evt) {
     const currentHole = currentRow.querySelectorAll('.hole')[currentHoleIdx];
     currentHole.style.backgroundColor = clickedColor;
     currentHoleIdx++;
-    /* if(currentHoleIdx === CODE_LENGTH) {
-        currentHoleIdx = 0;
-    } */
 }
 
 function renderFeedback(redPegs, whitePegs, currentRow) {
