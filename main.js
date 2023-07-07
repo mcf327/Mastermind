@@ -160,6 +160,9 @@ function highlightRow(guesses) {
 
 // function to start current guess over when "clear guess" is clicked
 function clearGuess() {
+    if (gameOver) {
+        return; // don't execute if game is already over
+    }
     currentHoleIdx = 0;
     const guess = Array.from(guessRows[guesses].querySelectorAll('.hole'));
     guess.forEach((hole) => {
