@@ -2,17 +2,21 @@ h2 {
     text-align: center;
 }
 
+
 .board {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    background-color: bisque;
-    border: 2px solid black;
+    background-color: #f5eee1;
+    height: 70 vh;
     max-width: 460px;
     width: 100%;
     margin: 0 auto;
-}
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
 
 .row, .secret-row, .color-row {
     display: flex;
@@ -28,7 +32,7 @@ h2 {
     height: 50px;
     margin: 2px;
     border-radius: 50%;
-    background-color: gray;
+    background-color: #f5eee1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,5 +91,14 @@ h2 {
 }
 
 .highlight {
-    border: 1px solid black;
+    border-radius: 10px;
+    border: 2px solid #f7eee2; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.color-row > .hole {
+    cursor: pointer;
+}  
+html {
+    height: 100vh;
 }

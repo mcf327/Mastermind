@@ -38,7 +38,7 @@ function getRandomCode() {
     return code;
 }
 
-// check player guess againt randomCode and award appropriate number of red/white pegs. executes main gameplay loop
+// check player guess againt randomCode and award appropriate number of red/white pegs
 function checkGuess() {
     if (gameOver) {  // statement to return if game is over; stop receiving input until new game is clicked
         return;
@@ -48,33 +48,31 @@ function checkGuess() {
     const guessArray = Array.from(currentRow.querySelectorAll('.hole')); // get array representing current guess from clicked colors in current row
     let redPegs = 0; // variables to track red and white pegs to be rendered for feedbacK
     let whitePegs = 0;
-    let correctGuess = true; 
     let codeCopy = [...randomCode]; // create a copy of the randomly generated code for easier manipulation and tracking of red/white pegs
+    const unmatchedGuess = [];
     // loop through guess array, compare each element to corresponding element in randomCode; increment redPegs if there's a match
     for (let i = 0; i < guessArray.length; i++) {
         const color = getComputedStyle(guessArray[i]).backgroundColor;  
-        if (color !== codeCopy[i]) { // if any colors in the two arrays do not match, set correctGuess to false and keep playing
-          correctGuess = false; 
-        } else {
+        if (color === codeCopy[i]) { 
             redPegs++;
             codeCopy[i] = null; // set value at index i in the copy of the random code to null, so that it's not counted more than once when checking for white pegs
+        } else {
+            unmatchedGuess.push(color);
         }
     }
-    if (correctGuess === true) {  // if the player's guess matched the random code exactly, display winning message and end game
+    for(let i = 0; i < unmatchedGuess.length; i++) {   
+        const colorIdx = codeCopy.indexOf(unmatchedGuess[i]); 
+        if (colorIdx !== -1) {
+            whitePegs++;
+            codeCopy[colorIdx] = null; // again, set value at index i to null so it can't be counted more than once
+        }
+    }
+    renderFeedback(redPegs, whitePegs, currentRow); // call renderFeedback function to render appropriate number of red and white pegs for the current row
+    if (redPegs === CODE_LENGTH){
         displayWin();
         gameOver = true;
         return;
     }
-    /* compare the code copy array and guess array again: if the elements at each index do not match but the color is 
-    contained elsewhere in the code copy, increment whitePegs */
-    for(let i = 0; i < guessArray.length; i++) {   
-        const color = getComputedStyle(guessArray[i]).backgroundColor; 
-        if (color !== codeCopy[i] && codeCopy.includes(color) && redPegs < 3) {
-            whitePegs++;
-            codeCopy[codeCopy.indexOf(color)] = null; // again, set value at index i to null so it can't be counted more than once
-        }
-    }
-    renderFeedback(redPegs, whitePegs, currentRow); // call renderFeedback function to render appropriate number of red and white pegs for the current row
     guesses--;
     if(guesses === 0) {
         displayLose();  // if the player has used up all guesses, display losing message and end game
