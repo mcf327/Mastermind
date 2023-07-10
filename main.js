@@ -94,10 +94,12 @@ function init() {
         row.classList.remove('highlight');
         const holes = Array.from(row.querySelectorAll('.hole'));
         holes.forEach((hole) => {
+            hole.classList.remove('active');
             hole.style.backgroundColor = 'gray';
         });
         const fbHoles = Array.from(row.querySelectorAll('.fb-hole'));  // also set background color of feedback holes in each row to gray
         fbHoles.forEach((hole) => {
+            hole.classList.remove('active');
             hole.style.backgroundColor = 'gray';
         });
     });
@@ -113,6 +115,7 @@ function renderGuess(evt) {
     const clickedColor = getComputedStyle(evt.target).backgroundColor; // get clicked color
     const currentHole = currentRow.querySelectorAll('.hole')[currentHoleIdx]; // variable to access each hole in current row
     currentHole.style.backgroundColor = clickedColor; // set background color of hole to the clicked color
+    currentHole.classList.add('active');
     currentHoleIdx++;
 }
 
@@ -120,8 +123,10 @@ function renderFeedback(redPegs, whitePegs, currentRow) {
     const fbHoles = Array.from(currentRow.querySelectorAll('.fb-hole')); // array to access/modify feedback in current row
     fbHoles.forEach((hole, idx) => { 
         if (idx < redPegs) {
+            hole.classList.add('active');
             hole.style.backgroundColor = 'red';
         } else if (idx < redPegs + whitePegs) {
+            hole.classList.add('active')
             hole.style.backgroundColor = 'white';
         } else {
             hole.style.backgroundColor = 'gray';
@@ -133,6 +138,7 @@ function revealCode() {
     const code = Array.from(secretRow.querySelectorAll('.hole')); // variable to access row for secret code
     for (let i = 0; i < CODE_LENGTH; i++) {
         const hole = code[i]; // access each hole in loop
+        hole.classList.add('active');
         hole.style.backgroundColor = randomCode[i]; // set background color of each hole to corresponding color in randomCode
         hole.textContent = ''; // remove question marks
     }
@@ -164,6 +170,7 @@ function clearGuess() {
     currentHoleIdx = 0;
     const guess = Array.from(guessRows[guesses].querySelectorAll('.hole'));
     guess.forEach((hole) => {
+        hole.classList.remove('active');
         hole.style.backgroundColor = 'gray';
     });
 }

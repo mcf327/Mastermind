@@ -1,5 +1,11 @@
+html {
+    height: 100%;
+    margin: 0;
+}
+
 h2 {
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -8,8 +14,7 @@ h2 {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    background-color: #f5eee1;
-    height: 70 vh;
+    background-color: #fce8be; 
     max-width: 460px;
     width: 100%;
     margin: 0 auto;
@@ -18,7 +23,7 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
-.row, .secret-row, .color-row {
+.row, .color-row {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -32,7 +37,7 @@ h2 {
     height: 50px;
     margin: 2px;
     border-radius: 50%;
-    background-color: #f5eee1;
+    background-image: linear-gradient(#f0d9b5, #c69c6d);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,6 +55,7 @@ h2 {
 
 .fb-hole {
     background-color: gray;
+    background-image: linear-gradient(#f0d9b5, #c69c6d);
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -97,8 +103,20 @@ h2 {
 }
 
 .color-row > .hole {
+    background-image: none;
     cursor: pointer;
 }  
-html {
-    height: 100vh;
+
+body {
+    transform-origin: top center;
+    transform: scale(0.9);
+    margin-top: 10px;
+}
+
+.hole.active {
+    background-image: none;
+}
+
+.fb-hole.active {
+    background-image: none;
 }
