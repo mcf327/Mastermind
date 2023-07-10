@@ -89,7 +89,7 @@ function init() {
     randomCode = getRandomCode(); // call function to generate a random code when game is started
     messageBox.innerText = "Welcome to Mastermind! Try to guess the code!";
     currentHoleIdx = 0;
-    // clear the board: loop through all ten rows for player's guesses and set background color of each hole to gray
+    // clear the board: loop through all rows, remove active class to remove colors from holes
     guessRows.forEach((row) => {
         row.classList.remove('highlight');
         const holes = Array.from(row.querySelectorAll('.hole'));
@@ -102,6 +102,9 @@ function init() {
             hole.classList.remove('active');
             hole.style.backgroundColor = 'gray';
         });
+    });
+    secretRow.querySelectorAll('.hole').forEach((hole) => {
+        hole.textContent = '?';
     });
     guessRows[guesses].classList.add('highlight'); // highlight starting row according to value of 'guesses'
 }

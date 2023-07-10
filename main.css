@@ -1,11 +1,11 @@
 html {
     height: 100%;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h2 {
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -64,8 +64,22 @@ h2 {
 .buttons {
     display: flex;
     justify-content: center;
-    grid-gap: 10px;
+    grid-gap: 15px;
     margin-top: 10px;
+}
+
+.buttons > button {
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #dcc9a6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+
+.buttons button:hover {
+    background-color: #ebe3d5;
 }
 
 #black {
@@ -109,7 +123,7 @@ h2 {
 
 body {
     transform-origin: top center;
-    transform: scale(0.9);
+    transform: scale(0.83);
     margin-top: 10px;
 }
 
