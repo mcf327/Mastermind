@@ -1,4 +1,4 @@
-# Mastermind Game
+# Mastermind
 Mastermind is a classic board game for two players, a code-maker and a code-breaker. Mastermind was created in 1970 by Mordecai Merkowitz as a colorful board game adaptation of a popular pen-and paper game, Bulls & Cows. In this browser implemenatation, the computer takes on the role of the code-maker, and it's the player's job to guess the secret code.
 ## Screenshots
 ![New game example](https://i.imgur.com/X84RU2H.png)
